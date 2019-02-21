@@ -1,5 +1,6 @@
 package org.fasttrackit;
 
+import org.fasttrackit.pageobjects.*;
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -7,7 +8,9 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.PageFactory;
 
+import java.awt.*;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.containsString;
@@ -26,11 +29,12 @@ public class CategoryPageTests {
 
     @Test
     public void openCategoryPage() {
-        System.setProperty("webdriver.chrome.driver", "src\\resorces\\drivers\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
         WebDriver driver = new ChromeDriver();
-        driver.get("https://fasttrackit.org/selenium-test/");
+        driver.get(AppConfig.getSiteUrl());
 
-        driver.findElement(By.className("nav-6")).click();
+        NavBar navBar = PageFactory.initElements(driver,NavBar.class);
+        navBar.getVipPage().click();
 
         String URL = driver.getCurrentUrl();
 
@@ -41,27 +45,29 @@ public class CategoryPageTests {
 
     @Test
     public void sortByPrice() {
-        System.setProperty("webdriver.chrome.driver", "src\\resorces\\drivers\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
         WebDriver driver = new ChromeDriver();
-        driver.get("https://fasttrackit.org/selenium-test/");
+        driver.get(AppConfig.getSiteUrl());
 
-        driver.findElement(By.className("nav-6")).click();
+        NavBar navBar = PageFactory.initElements(driver,NavBar.class);
+        navBar.getVipPage().click();
 
-        driver.findElement(By.xpath("//div[@class='sort-by']//select[@title='Sort By']//option[@value='https://fasttrackit.org/selenium-test/vip.html?dir=asc&order=price']")).click();
+        ProductGrid productGrid = PageFactory.initElements(driver,ProductGrid.class);
+        productGrid.getSortByPrice().click();
 
-        String firstProductPrice = driver.findElement(By.id("product-price-448")).getText();
+        String firstProductPrice = productGrid.getFistElementPrice().getText();
         double firstPrice = convertPrice(firstProductPrice);
 
-        String secondProductPrice = driver.findElement(By.xpath("//li[@class='item last']//div[@class='price-box']//span[@id='product-price-391']")).getText();
+        String secondProductPrice = productGrid.getSecondElementPrice().getText();
         double secondPrice = convertPrice(secondProductPrice);
 
-        String thirdProductPrice = driver.findElement(By.xpath("//li[@class='item last']//div[@class='price-box']//span[@id='product-price-437']")).getText();
+        String thirdProductPrice = productGrid.getThirdElementPrice().getText();
         double thirdPrice = convertPrice(thirdProductPrice);
 
-        String fourthProductPrice = driver.findElement(By.xpath("//li[@class='item last']//div[@class='price-box']//span[@id='product-price-412']")).getText();
+        String fourthProductPrice = productGrid.getFourthProductPrice().getText();
         double fourthPrice = convertPrice(fourthProductPrice);
 
-        String fifthProductPrice = driver.findElement(By.id("product-price-427")).getText();
+        String fifthProductPrice = productGrid.getFifthProductPrice().getText();
         double fifthPrice = convertPrice(fifthProductPrice);
 
         Boolean expectedResult = true;
@@ -94,12 +100,15 @@ public class CategoryPageTests {
 
     @Test
     public void openProductPageByClickOnImage(){
-        System.setProperty("webdriver.chrome.driver", "src\\resorces\\drivers\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
         WebDriver driver = new ChromeDriver();
-        driver.get("https://fasttrackit.org/selenium-test/");
-        driver.findElement(By.className("nav-6")).click();
+        driver.get(AppConfig.getSiteUrl());
 
-        driver.findElement(By.id("product-collection-image-448")).click();
+        NavBar navBar = PageFactory.initElements(driver,NavBar.class);
+        navBar.getVipPage().click();
+
+        ProductGrid productGrid = PageFactory.initElements(driver,ProductGrid.class);
+        productGrid.getProductImage().click();
 
         String URL = driver.getCurrentUrl();
 
@@ -110,12 +119,16 @@ public class CategoryPageTests {
 
     @Test
     public void openProductPageByClickOnText(){
-        System.setProperty("webdriver.chrome.driver", "src\\resorces\\drivers\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
         WebDriver driver = new ChromeDriver();
-        driver.get("https://fasttrackit.org/selenium-test/");
-        driver.findElement(By.className("nav-6")).click();
+        driver.get(AppConfig.getSiteUrl());
 
-        driver.findElement(By.xpath("//li[@class='item last']//h2//a[@title='A Tale of Two Cities']")).click();
+        NavBar navBar = PageFactory.initElements(driver,NavBar.class);
+        navBar.getVipPage().click();
+
+        ProductGrid productGrid = PageFactory.initElements(driver,ProductGrid.class);
+        productGrid.getProductName().click();
+
         String URL = driver.getCurrentUrl();
 
         assertThat("Product page is not open.",URL, is("https://fasttrackit.org/selenium-test/vip/a-tale-of-two-cities.html"));
@@ -125,30 +138,36 @@ public class CategoryPageTests {
 
     @Test
     public void recentlyViewedProducts() {
-        System.setProperty("webdriver.chrome.driver", "src\\resorces\\drivers\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
         WebDriver driver = new ChromeDriver();
-        driver.get("https://fasttrackit.org/selenium-test/");
-        driver.findElement(By.className("nav-6")).click();
+        driver.get(AppConfig.getSiteUrl());
 
-        driver.findElement(By.xpath("//li[@class='item last']//h2//a[@title='A Tale of Two Cities']")).click();
+        NavBar navBar = PageFactory.initElements(driver,NavBar.class);
+        navBar.getVipPage().click();
+
+        ProductGrid productGrid = PageFactory.initElements(driver,ProductGrid.class);
+        productGrid.getProductName().click();
         driver.navigate().back();
 
-        WebElement recentlyViewedElement = driver.findElement(By.xpath("//div[@class='block-content']//li[@class='item last odd']"));
+        RightMenu rightMenu = PageFactory.initElements(driver,RightMenu.class);
 
-        assertThat("Recently viewed products is not displayed", recentlyViewedElement.isDisplayed());
+        assertThat("Recently viewed products is not displayed", rightMenu.getRecentlyViewedElement().isDisplayed());
         driver.quit();
     }
 
     @Test
-    public void addToWishlist(){
-        System.setProperty("webdriver.chrome.driver", "src\\resorces\\drivers\\chromedriver.exe");
+    public void addToWishlistWithoutLogin(){
+        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
         WebDriver driver = new ChromeDriver();
-        driver.get("https://fasttrackit.org/selenium-test/");
-        driver.findElement(By.className("nav-6")).click();
+        driver.get(AppConfig.getSiteUrl());
+
+        NavBar navBar = PageFactory.initElements(driver,NavBar.class);
+        navBar.getVipPage().click();
 
         String productName = "Geometric Candle Holders";
 
-        driver.findElement(By.xpath("//div[@class='product-info' and .//a[text()= '"+productName+"']]//a[@class='link-wishlist']")).click();
+        ProductGrid productGrid = PageFactory.initElements(driver,ProductGrid.class);
+        productGrid.getAddToWishListtButton(productName,driver).click();
 
         String URL = driver.getCurrentUrl();
 
@@ -159,14 +178,17 @@ public class CategoryPageTests {
 
     @Test
     public void addToCompare(){
-        System.setProperty("webdriver.chrome.driver", "src\\resorces\\drivers\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
         WebDriver driver = new ChromeDriver();
-        driver.get("https://fasttrackit.org/selenium-test/");
-        driver.findElement(By.className("nav-6")).click();
+        driver.get(AppConfig.getSiteUrl());
+
+        NavBar navBar = PageFactory.initElements(driver,NavBar.class);
+        navBar.getVipPage().click();
 
         String productName = "Geometric Candle Holders";
 
-        driver.findElement(By.xpath("//div[@class='product-info' and .//a[text()= '"+productName+"']]//a[@class='link-compare']")).click();
+        RightMenu rightMenu = PageFactory.initElements(driver,RightMenu.class);
+        rightMenu.productNameAddedToCompare(productName,driver).click();
 
         String msg = driver.findElement(By.xpath("//li[@class='success-msg']")).getText();
 
@@ -176,41 +198,48 @@ public class CategoryPageTests {
 
     @Test
     public void addToCart(){
-        System.setProperty("webdriver.chrome.driver", "src\\resorces\\drivers\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
         WebDriver driver = new ChromeDriver();
-        driver.get("https://fasttrackit.org/selenium-test/");
-        driver.findElement(By.className("nav-6")).click();
+        driver.get(AppConfig.getSiteUrl());
+
+        NavBar navBar = PageFactory.initElements(driver,NavBar.class);
+        navBar.getVipPage().click();
 
         String productName = "Geometric Candle Holders";
 
-        driver.findElement(By.xpath("//div[@class='product-info' and .//a[text()= '"+productName+"']]//button[@title='Add to Cart']")).click();
+        ProductGrid productGrid = PageFactory.initElements(driver,ProductGrid.class);
+        productGrid.getAddToCartButton(productName,driver).click();
+
         String msg = driver.findElement(By.className("success-msg")).getText();
 
         assertThat("Success message is not displayed",msg, CoreMatchers.is(productName+" was added to your shopping cart."));
 
-        WebElement productNameAddedToCart = driver.findElement(By.xpath("//tr[@class='first last odd'] //h2[@class = 'product-name'] // a [text()='"+productName+"']"));
-
-        assertThat("Product is not on cart page",productNameAddedToCart.isDisplayed());
+        Checkout checkout = PageFactory.initElements(driver,Checkout.class);
+        assertThat("Product is not on cart page",checkout.productNameAddedToCart(productName,driver).isDisplayed());
 
         driver.quit();
     }
 
     @Test
     public void filterByOneCategory() {
-        System.setProperty("webdriver.chrome.driver", "src\\resorces\\drivers\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
         WebDriver driver = new ChromeDriver();
-        driver.get("https://fasttrackit.org/selenium-test/");
-        driver.findElement(By.className("nav-6")).click();
+        driver.get(AppConfig.getSiteUrl());
 
-        driver.findElement(By.xpath("//dl[@id='narrow-by-list']//span[@class='price']")).click();
+        NavBar navBar = PageFactory.initElements(driver,NavBar.class);
+        navBar.getVipPage().click();
 
-        String firstProductPrice = driver.findElement(By.id("product-price-448")).getText();
+        FilterBy filterBy = PageFactory.initElements(driver,FilterBy.class);
+        filterBy.getPrice().click();
+
+        ProductGrid productGrid = PageFactory.initElements(driver,ProductGrid.class);
+        String firstProductPrice=productGrid.getFistElementPrice().getText();
         double firstPrice = convertPrice(firstProductPrice);
 
-        String secondProductPrice = driver.findElement(By.xpath("//li[@class='item last']//div[@class='price-box']//span[@id='product-price-391']")).getText();
+        String secondProductPrice = productGrid.getSecondElementPrice().getText();
         double secondPrice = convertPrice(secondProductPrice);
 
-        String thirdProductPrice = driver.findElement(By.xpath("//li[@class='item last']//div[@class='price-box']//span[@id='product-price-437']")).getText();
+        String thirdProductPrice = productGrid.getThirdElementPrice().getText();
         double thirdPrice = convertPrice(thirdProductPrice);
 
         Boolean expectedResult = true;
@@ -229,19 +258,20 @@ public class CategoryPageTests {
         driver.quit();
     }
 
-
-
-
     @Test
     public void searchFunctionalityFromCategoryPage(){
-        System.setProperty("webdriver.chrome.driver", "src\\resorces\\drivers\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
         WebDriver driver = new ChromeDriver();
-        driver.get("https://fasttrackit.org/selenium-test/");
-        driver.findElement(By.className("nav-6")).click();
+        driver.get(AppConfig.getSiteUrl());
+
+        NavBar navBar = PageFactory.initElements(driver,NavBar.class);
+        navBar.getVipPage().click();
 
         String keyword = "vase";
 
-        driver.findElement(By.className("input-text")).sendKeys(keyword + Keys.ENTER);
+        Header header = PageFactory.initElements(driver,Header.class);
+        header.search(keyword);
+
         List<WebElement> productNameContainers = driver.findElements(By.cssSelector(".product-name >a"));
 
         for (WebElement containers: productNameContainers){
