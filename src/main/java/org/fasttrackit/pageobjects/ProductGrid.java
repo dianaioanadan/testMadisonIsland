@@ -9,13 +9,6 @@ import java.util.List;
 
 public class ProductGrid {
 
-//    @FindBy(css = ".product-name >a")
-//    private List<WebElement> productNameContainers;
-//
-//    public List<WebElement> getProductNameContainers() {
-//        return productNameContainers;
-//    }
-//
     public WebElement getAddToCartButton(String productName, WebDriver driver){
         return   driver.findElement(By.xpath("//div[@class='product-info' and .//a[text()= '"+productName+"']]//button[@title='Add to Cart']"));
     }
@@ -79,4 +72,48 @@ public class ProductGrid {
     public WebElement getFifthProductPrice() {
         return fifthProductPrice;
     }
+
+    @FindBy(xpath = "//div[@class='sort-by']//select[@title='Sort By']//option[@value='https://fasttrackit.org/selenium-test/sale.html?dir=asc&order=price']")
+    private WebElement sortByPriceSalePage;
+
+    public WebElement getSortByPriceSalePage() {
+        return sortByPriceSalePage;
+    }
+
+    @FindBy(id = "product-price-384")
+    private  WebElement fistElementPriceSalePage;
+
+    public WebElement getFistElementPriceSalePage() {
+        return fistElementPriceSalePage;
+    }
+
+    @FindBy(id = "product-price-403")
+    private WebElement secondElementPriceSalePage;
+
+    public WebElement getSecondElementPriceSalePage() {
+        return secondElementPriceSalePage;
+    }
+
+    @FindBy(id = "product-price-423")
+    private WebElement thirdElementPriceSalePage;
+
+    public WebElement getThirdElementPriceSalePage() {
+        return thirdElementPriceSalePage;
+    }
+
+    @FindBy(id = "product-collection-image-423")
+    private WebElement productImageSalePage;
+
+    public WebElement getProductImageSalePage() {
+        return productImageSalePage;
+    }
+
+    @FindBy(xpath = "//li[@class='item last']//h2//a[@title='Racer Back Maxi Dress']")
+    private  WebElement productNameSalePge;
+
+    public WebElement getProductNameSalePge() {
+        return productNameSalePge;
+    }
+
+
 }

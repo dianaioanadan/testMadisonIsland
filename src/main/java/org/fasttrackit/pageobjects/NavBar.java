@@ -12,4 +12,11 @@ public class NavBar {
     public WebElement getVipPage() {
         return vipPage;
     }
+
+    @FindBy(className = "nav-5")
+    private WebElement salePage;
+
+    public WebElement getSalePage() {
+        return salePage;
+    }
 }

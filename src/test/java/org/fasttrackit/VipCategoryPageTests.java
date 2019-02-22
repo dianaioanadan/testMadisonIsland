@@ -17,7 +17,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-public class CategoryPageTests {
+public class VipCategoryPageTests {
     public double convertPrice(String priceString) {
         String[] newPriceString = priceString.split(" ");
         String intPriceString = newPriceString[0];

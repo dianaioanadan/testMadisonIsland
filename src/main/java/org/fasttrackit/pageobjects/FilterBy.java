@@ -11,4 +11,11 @@ public class FilterBy {
     public WebElement getPrice() {
         return price;
     }
+
+    @FindBy(xpath = "//dl[@id='narrow-by-list'] // dd[@class='even'] // a[@href='https://fasttrackit.org/selenium-test/sale.html?price=100-200']")
+    private WebElement priceMoreThan100;
+
+    public WebElement getPriceMoreThan100() {
+        return priceMoreThan100;
+    }
 }
