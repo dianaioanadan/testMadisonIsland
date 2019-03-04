@@ -17,7 +17,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-public class VipCategoryPageTests {
+public class VipCategoryPageTests extends TestBase {
     public double convertPrice(String priceString) {
         String[] newPriceString = priceString.split(" ");
         String intPriceString = newPriceString[0];
@@ -29,9 +29,9 @@ public class VipCategoryPageTests {
 
     @Test
     public void openCategoryPage() {
-        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
-        WebDriver driver = new ChromeDriver();
-        driver.get(AppConfig.getSiteUrl());
+//        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
+//        WebDriver driver = new ChromeDriver();
+//        driver.get(AppConfig.getSiteUrl());
 
         NavBar navBar = PageFactory.initElements(driver,NavBar.class);
         navBar.getVipPage().click();
@@ -45,9 +45,9 @@ public class VipCategoryPageTests {
 
     @Test
     public void sortByPrice() {
-        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
-        WebDriver driver = new ChromeDriver();
-        driver.get(AppConfig.getSiteUrl());
+//        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
+//        WebDriver driver = new ChromeDriver();
+//        driver.get(AppConfig.getSiteUrl());
 
         NavBar navBar = PageFactory.initElements(driver,NavBar.class);
         navBar.getVipPage().click();
@@ -100,9 +100,9 @@ public class VipCategoryPageTests {
 
     @Test
     public void openProductPageByClickOnImage(){
-        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
-        WebDriver driver = new ChromeDriver();
-        driver.get(AppConfig.getSiteUrl());
+//        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
+//        WebDriver driver = new ChromeDriver();
+//        driver.get(AppConfig.getSiteUrl());
 
         NavBar navBar = PageFactory.initElements(driver,NavBar.class);
         navBar.getVipPage().click();
@@ -119,9 +119,9 @@ public class VipCategoryPageTests {
 
     @Test
     public void openProductPageByClickOnText(){
-        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
-        WebDriver driver = new ChromeDriver();
-        driver.get(AppConfig.getSiteUrl());
+//        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
+//        WebDriver driver = new ChromeDriver();
+//        driver.get(AppConfig.getSiteUrl());
 
         NavBar navBar = PageFactory.initElements(driver,NavBar.class);
         navBar.getVipPage().click();
@@ -138,9 +138,9 @@ public class VipCategoryPageTests {
 
     @Test
     public void recentlyViewedProducts() {
-        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
-        WebDriver driver = new ChromeDriver();
-        driver.get(AppConfig.getSiteUrl());
+//        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
+//        WebDriver driver = new ChromeDriver();
+//        driver.get(AppConfig.getSiteUrl());
 
         NavBar navBar = PageFactory.initElements(driver,NavBar.class);
         navBar.getVipPage().click();
@@ -157,9 +157,9 @@ public class VipCategoryPageTests {
 
     @Test
     public void addToWishlistWithoutLogin(){
-        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
-        WebDriver driver = new ChromeDriver();
-        driver.get(AppConfig.getSiteUrl());
+//        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
+//        WebDriver driver = new ChromeDriver();
+//        driver.get(AppConfig.getSiteUrl());
 
         NavBar navBar = PageFactory.initElements(driver,NavBar.class);
         navBar.getVipPage().click();
@@ -178,9 +178,9 @@ public class VipCategoryPageTests {
 
     @Test
     public void addToCompare(){
-        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
-        WebDriver driver = new ChromeDriver();
-        driver.get(AppConfig.getSiteUrl());
+//        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
+//        WebDriver driver = new ChromeDriver();
+//        driver.get(AppConfig.getSiteUrl());
 
         NavBar navBar = PageFactory.initElements(driver,NavBar.class);
         navBar.getVipPage().click();
@@ -198,9 +198,9 @@ public class VipCategoryPageTests {
 
     @Test
     public void addToCart(){
-        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
-        WebDriver driver = new ChromeDriver();
-        driver.get(AppConfig.getSiteUrl());
+//        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
+//        WebDriver driver = new ChromeDriver();
+//        driver.get(AppConfig.getSiteUrl());
 
         NavBar navBar = PageFactory.initElements(driver,NavBar.class);
         navBar.getVipPage().click();
@@ -222,9 +222,9 @@ public class VipCategoryPageTests {
 
     @Test
     public void filterByOneCategory() {
-        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
-        WebDriver driver = new ChromeDriver();
-        driver.get(AppConfig.getSiteUrl());
+//        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
+//        WebDriver driver = new ChromeDriver();
+//        driver.get(AppConfig.getSiteUrl());
 
         NavBar navBar = PageFactory.initElements(driver,NavBar.class);
         navBar.getVipPage().click();
@@ -259,10 +259,10 @@ public class VipCategoryPageTests {
     }
 
     @Test
-    public void searchFunctionalityFromCategoryPage(){
-        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
-        WebDriver driver = new ChromeDriver();
-        driver.get(AppConfig.getSiteUrl());
+    public void searchFunctionalityFromCategoryPage() throws InterruptedException {
+//        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
+//        WebDriver driver = new ChromeDriver();
+//        driver.get(AppConfig.getSiteUrl());
 
         NavBar navBar = PageFactory.initElements(driver,NavBar.class);
         navBar.getVipPage().click();
@@ -271,6 +271,8 @@ public class VipCategoryPageTests {
 
         Header header = PageFactory.initElements(driver,Header.class);
         header.search(keyword);
+
+        Thread.sleep(2000);
 
         List<WebElement> productNameContainers = driver.findElements(By.cssSelector(".product-name >a"));
 
