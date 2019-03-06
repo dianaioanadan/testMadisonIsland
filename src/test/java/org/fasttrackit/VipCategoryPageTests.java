@@ -202,6 +202,7 @@ public class VipCategoryPageTests extends TestBase {
 //        WebDriver driver = new ChromeDriver();
 //        driver.get(AppConfig.getSiteUrl());
 
+        waitForPageToLoad(5000);
         NavBar navBar = PageFactory.initElements(driver,NavBar.class);
         navBar.getVipPage().click();
 
