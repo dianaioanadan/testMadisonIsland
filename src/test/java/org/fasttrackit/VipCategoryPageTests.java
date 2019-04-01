@@ -4,13 +4,10 @@ import org.fasttrackit.pageobjects.*;
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
 
-import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.containsString;
@@ -18,67 +15,41 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
 public class VipCategoryPageTests extends TestBase {
-    public double convertPrice(String priceString) {
-        String[] newPriceString = priceString.split(" ");
-        String intPriceString = newPriceString[0];
-        String stringPriceString = newPriceString[1];
-        intPriceString = intPriceString.replace(",", ".");
-        double priceValue = Double.parseDouble(intPriceString);
-        return priceValue;
-    }
+
+    private ProductGrid productGrid = PageFactory.initElements(driver, ProductGrid.class);
 
     @Test
     public void openCategoryPage() {
-//        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
-//        WebDriver driver = new ChromeDriver();
-//        driver.get(AppConfig.getSiteUrl());
 
-        NavBar navBar = PageFactory.initElements(driver,NavBar.class);
-        navBar.getVipPage().click();
+        NavigationBar navigationBar = PageFactory.initElements(driver, NavigationBar.class);
+        navigationBar.getVipPage().click();
 
         String URL = driver.getCurrentUrl();
 
-        assertThat("User is not on the right page", URL, is("https://fasttrackit.org/selenium-test/vip.html"));
-
-        driver.quit();
+        assertThat("User is not on the right page", URL, is(AppConfig.getSiteUrl() + "vip.html"));
     }
 
     @Test
     public void sortByPrice() {
-//        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
-//        WebDriver driver = new ChromeDriver();
-//        driver.get(AppConfig.getSiteUrl());
 
-        NavBar navBar = PageFactory.initElements(driver,NavBar.class);
-        navBar.getVipPage().click();
+        NavigationBar navigationBar = PageFactory.initElements(driver, NavigationBar.class);
+        navigationBar.getVipPage().click();
 
-        ProductGrid productGrid = PageFactory.initElements(driver,ProductGrid.class);
-        productGrid.getSortByPrice().click();
+        ProductGrid productGrid = PageFactory.initElements(driver, ProductGrid.class);
+        productGrid.getSortByPriceFilter().click();
 
-        String firstProductPrice = productGrid.getFistElementPrice().getText();
-        double firstPrice = convertPrice(firstProductPrice);
+        List<Double> prices = productGrid.getActualProductPricesAsDouble();
 
-        String secondProductPrice = productGrid.getSecondElementPrice().getText();
-        double secondPrice = convertPrice(secondProductPrice);
-
-        String thirdProductPrice = productGrid.getThirdElementPrice().getText();
-        double thirdPrice = convertPrice(thirdProductPrice);
-
-        String fourthProductPrice = productGrid.getFourthProductPrice().getText();
-        double fourthPrice = convertPrice(fourthProductPrice);
-
-        String fifthProductPrice = productGrid.getFifthProductPrice().getText();
-        double fifthPrice = convertPrice(fifthProductPrice);
 
         Boolean expectedResult = true;
 
-        if (firstPrice < secondPrice) {
+        if (prices.get(0) < prices.get(1)) {
             expectedResult = true;
-            if (secondPrice < thirdPrice) {
+            if (prices.get(1) < prices.get(2)) {
                 expectedResult = true;
-                if (thirdPrice < fourthPrice) {
+                if (prices.get(2) < prices.get(3)) {
                     expectedResult = true;
-                    if (fourthPrice < fifthPrice) {
+                    if (prices.get(3) < prices.get(4)) {
                         expectedResult = true;
                     } else {
                         expectedResult = false;
@@ -93,195 +64,164 @@ public class VipCategoryPageTests extends TestBase {
             expectedResult = false;
         }
 
-        assertThat("Sort by price is not working.",expectedResult, is(true));
-
-        driver.quit();
+        assertThat("Sort by price is not working.", expectedResult, is(true));
     }
 
     @Test
-    public void openProductPageByClickOnImage(){
-//        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
-//        WebDriver driver = new ChromeDriver();
-//        driver.get(AppConfig.getSiteUrl());
+    public void openProductPageByClickOnImage() {
 
-        NavBar navBar = PageFactory.initElements(driver,NavBar.class);
-        navBar.getVipPage().click();
+        NavigationBar navigationBar = PageFactory.initElements(driver, NavigationBar.class);
+        navigationBar.getVipPage().click();
 
-        ProductGrid productGrid = PageFactory.initElements(driver,ProductGrid.class);
+        ProductGrid productGrid = PageFactory.initElements(driver, ProductGrid.class);
         productGrid.getProductImage().click();
 
+        ProductPage productPage = PageFactory.initElements(driver, ProductPage.class);
+
         String URL = driver.getCurrentUrl();
 
-        assertThat("Product page is not open.",URL, is("https://fasttrackit.org/selenium-test/vip/a-tale-of-two-cities.html"));
-
-        driver.quit();
+        assertThat("Product page is not open.", URL, is(AppConfig.getSiteUrl() + "vip/a-tale-of-two-cities.html"));
+        assertThat("Product page is not open.",productPage.getProductPageTitle().isDisplayed());
     }
 
     @Test
-    public void openProductPageByClickOnText(){
-//        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
-//        WebDriver driver = new ChromeDriver();
-//        driver.get(AppConfig.getSiteUrl());
+    public void openProductPageByClickOnText() {
 
-        NavBar navBar = PageFactory.initElements(driver,NavBar.class);
-        navBar.getVipPage().click();
+        NavigationBar navigationBar = PageFactory.initElements(driver, NavigationBar.class);
+        navigationBar.getVipPage().click();
 
-        ProductGrid productGrid = PageFactory.initElements(driver,ProductGrid.class);
+        ProductGrid productGrid = PageFactory.initElements(driver, ProductGrid.class);
         productGrid.getProductName().click();
+
+        ProductPage productPage = PageFactory.initElements(driver, ProductPage.class);
+
 
         String URL = driver.getCurrentUrl();
 
-        assertThat("Product page is not open.",URL, is("https://fasttrackit.org/selenium-test/vip/a-tale-of-two-cities.html"));
-
-        driver.quit();
+        assertThat("Product page is not open.", URL, is(AppConfig.getSiteUrl() + "vip/a-tale-of-two-cities.html"));
+        assertThat("Product page is not open.",productPage.getProductPageTitle().isDisplayed());
     }
 
     @Test
     public void recentlyViewedProducts() {
-//        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
-//        WebDriver driver = new ChromeDriver();
-//        driver.get(AppConfig.getSiteUrl());
 
-        NavBar navBar = PageFactory.initElements(driver,NavBar.class);
-        navBar.getVipPage().click();
+        NavigationBar navigationBar = PageFactory.initElements(driver, NavigationBar.class);
+        navigationBar.getVipPage().click();
 
-        ProductGrid productGrid = PageFactory.initElements(driver,ProductGrid.class);
+        ProductGrid productGrid = PageFactory.initElements(driver, ProductGrid.class);
         productGrid.getProductName().click();
         driver.navigate().back();
 
-        RightMenu rightMenu = PageFactory.initElements(driver,RightMenu.class);
+        RightMenu rightMenu = PageFactory.initElements(driver, RightMenu.class);
 
-        assertThat("Recently viewed products is not displayed", rightMenu.getRecentlyViewedElement().isDisplayed());
-        driver.quit();
+        assertThat("Recently viewed products component is not displayed", rightMenu.getRecentlyViewedElement().isDisplayed());
     }
 
     @Test
-    public void addToWishlistWithoutLogin(){
-//        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
-//        WebDriver driver = new ChromeDriver();
-//        driver.get(AppConfig.getSiteUrl());
+    public void addToWishlistWithoutLogin() {
 
-        NavBar navBar = PageFactory.initElements(driver,NavBar.class);
-        navBar.getVipPage().click();
+        NavigationBar navigationBar = PageFactory.initElements(driver, NavigationBar.class);
+        navigationBar.getVipPage().click();
 
         String productName = "Geometric Candle Holders";
 
-        ProductGrid productGrid = PageFactory.initElements(driver,ProductGrid.class);
-        productGrid.getAddToWishListtButton(productName,driver).click();
+        ProductGrid productGrid = PageFactory.initElements(driver, ProductGrid.class);
+        productGrid.getAddToWishListtButton(productName, driver).click();
 
         String URL = driver.getCurrentUrl();
 
-        assertThat("Product page is not open.",URL, is("https://fasttrackit.org/selenium-test/customer/account/login/"));
-
-        driver.quit();
+        assertThat("Product page is not open.", URL, is(AppConfig.getSiteUrl() + "customer/account/login/"));
     }
 
     @Test
-    public void addToCompare(){
-//        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
-//        WebDriver driver = new ChromeDriver();
-//        driver.get(AppConfig.getSiteUrl());
+    public void addToCompareButtonFunctionality() {
 
-        NavBar navBar = PageFactory.initElements(driver,NavBar.class);
-        navBar.getVipPage().click();
+        NavigationBar navigationBar = PageFactory.initElements(driver, NavigationBar.class);
+        navigationBar.getVipPage().click();
 
-        String productName = "Geometric Candle Holders";
+        String productName1 = "Geometric Candle Holders";
 
-        RightMenu rightMenu = PageFactory.initElements(driver,RightMenu.class);
-        rightMenu.productNameAddedToCompare(productName,driver).click();
+        RightMenu rightMenu = PageFactory.initElements(driver, RightMenu.class);
+        rightMenu.productNameAddedToCompare(productName1, driver).click();
 
         String msg = driver.findElement(By.xpath("//li[@class='success-msg']")).getText();
 
-        assertThat("Product wasn't added to compare",msg,is("The product "+productName+" has been added to comparison list."));
-        driver.quit();
+        assertThat("Product wasn't added to compare", msg, is("The product " + productName1 + " has been added to comparison list."));
+
+        String productName2 = "Modern Murray Ceramic Vase";
+        rightMenu.productNameAddedToCompare(productName2, driver).click();
+
+        String msg2 = driver.findElement(By.xpath("//li[@class='success-msg']")).getText();
+
+        assertThat("Product wasn't added to compare", msg2, is("The product " + productName2 + " has been added to comparison list."));
+
+        assertThat("Compare component is not displayed",rightMenu.getCompareComponent().isDisplayed());
     }
 
     @Test
-    public void addToCart(){
-//        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
-//        WebDriver driver = new ChromeDriver();
-//        driver.get(AppConfig.getSiteUrl());
+    public void addToCart() {
 
         waitForPageToLoad(5000);
-        NavBar navBar = PageFactory.initElements(driver,NavBar.class);
-        navBar.getVipPage().click();
+        NavigationBar navigationBar = PageFactory.initElements(driver, NavigationBar.class);
+        navigationBar.getVipPage().click();
 
         String productName = "Geometric Candle Holders";
 
-        ProductGrid productGrid = PageFactory.initElements(driver,ProductGrid.class);
-        productGrid.getAddToCartButton(productName,driver).click();
+        ProductGrid productGrid = PageFactory.initElements(driver, ProductGrid.class);
+        productGrid.getAddToCartButton(productName, driver).click();
 
         String msg = driver.findElement(By.className("success-msg")).getText();
 
-        assertThat("Success message is not displayed",msg, CoreMatchers.is(productName+" was added to your shopping cart."));
+        assertThat("Success message is not displayed", msg, CoreMatchers.is(productName + " was added to your shopping cart."));
 
-        Checkout checkout = PageFactory.initElements(driver,Checkout.class);
-        assertThat("Product is not on cart page",checkout.productNameAddedToCart(productName,driver).isDisplayed());
-
-        driver.quit();
+        Checkout checkout = PageFactory.initElements(driver, Checkout.class);
+        assertThat("Product is not on cart page", checkout.productNameAddedToCartButton(productName, driver).isDisplayed());
     }
 
     @Test
-    public void filterByOneCategory() {
-//        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
-//        WebDriver driver = new ChromeDriver();
-//        driver.get(AppConfig.getSiteUrl());
+    public void filterByPrice() {
 
-        NavBar navBar = PageFactory.initElements(driver,NavBar.class);
-        navBar.getVipPage().click();
+        NavigationBar navigationBar = PageFactory.initElements(driver, NavigationBar.class);
+        navigationBar.getVipPage().click();
 
-        FilterBy filterBy = PageFactory.initElements(driver,FilterBy.class);
+        FilterBy filterBy = PageFactory.initElements(driver, FilterBy.class);
         filterBy.getPrice().click();
 
-        ProductGrid productGrid = PageFactory.initElements(driver,ProductGrid.class);
-        String firstProductPrice=productGrid.getFistElementPrice().getText();
-        double firstPrice = convertPrice(firstProductPrice);
-
-        String secondProductPrice = productGrid.getSecondElementPrice().getText();
-        double secondPrice = convertPrice(secondProductPrice);
-
-        String thirdProductPrice = productGrid.getThirdElementPrice().getText();
-        double thirdPrice = convertPrice(thirdProductPrice);
+        List<Double> prices = productGrid.getActualProductPricesAsDouble();
 
         Boolean expectedResult = true;
 
-        if (firstPrice > 100) {
+        if (prices.get(0) > 100) {
             expectedResult = false;
         } else {
-            if (secondPrice > 100) {
+            if (prices.get(1) > 100) {
                 expectedResult = false;
-            } else if (thirdPrice > 100) expectedResult = false;
+            } else if (prices.get(2) > 100) expectedResult = false;
         }
 
 
-        assertThat("Filter by price is not working.",expectedResult, is(true));
-
-        driver.quit();
+        assertThat("Filter by price is not working.", expectedResult, is(true));
     }
 
     @Test
     public void searchFunctionalityFromCategoryPage() throws InterruptedException {
-//        System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
-//        WebDriver driver = new ChromeDriver();
-//        driver.get(AppConfig.getSiteUrl());
 
-        NavBar navBar = PageFactory.initElements(driver,NavBar.class);
-        navBar.getVipPage().click();
+        NavigationBar navigationBar = PageFactory.initElements(driver, NavigationBar.class);
+        navigationBar.getVipPage().click();
 
         String keyword = "vase";
 
-        Header header = PageFactory.initElements(driver,Header.class);
+        Header header = PageFactory.initElements(driver, Header.class);
         header.search(keyword);
 
         Thread.sleep(2000);
 
         List<WebElement> productNameContainers = driver.findElements(By.cssSelector(".product-name >a"));
 
-        for (WebElement containers: productNameContainers){
+        for (WebElement containers : productNameContainers) {
             String productName = containers.getText();
 
-            assertThat("Some of the products names, do not contain the search heyword", productName,containsString(keyword.toUpperCase()));
+            assertThat("Some of the products names, do not contain the search heyword", productName, containsString(keyword.toUpperCase()));
         }
-        driver.quit();
     }
 }

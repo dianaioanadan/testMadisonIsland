@@ -7,14 +7,21 @@ import org.openqa.selenium.support.FindBy;
 
 public class RightMenu {
 
-    @FindBy(xpath = "//div[@class='block-content']//li[@class='item last odd']")
+    @FindBy(xpath = "//div[contains(@class,'block-viewed')]")
     private WebElement recentlyViewedElement;
 
-    public WebElement getRecentlyViewedElement() {
-        return recentlyViewedElement;
+    @FindBy(xpath = "//div[contains(@class,'block-compare')]")
+    private WebElement compareComponent;
+
+    public WebElement getCompareComponent() {
+        return compareComponent;
     }
 
     public WebElement productNameAddedToCompare(String productName, WebDriver driver){
         return   driver.findElement(By.xpath("//div[@class='product-info' and .//a[text()= '"+productName+"']]//a[@class='link-compare']"));
+    }
+
+    public WebElement getRecentlyViewedElement() {
+        return recentlyViewedElement;
     }
 }

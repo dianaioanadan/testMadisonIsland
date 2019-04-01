@@ -9,7 +9,7 @@ public class AppConfig {
     private static Properties properties = new Properties();
 
     static {
-        String environment = System.getProperty("env","production");
+        String environment = System.getProperty("env", "production");
 
         InputStream inputStream = AppConfig.class.getClassLoader().getResourceAsStream(environment + ".properties");
 
@@ -42,7 +42,7 @@ public class AppConfig {
         return siteUrl;
     }
 
-    public static int getTimeout(){
+    public static int getTimeout() {
         return Integer.parseInt(timeoutWait);
     }
 }

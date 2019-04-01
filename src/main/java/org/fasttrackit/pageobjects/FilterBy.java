@@ -5,17 +5,17 @@ import org.openqa.selenium.support.FindBy;
 
 public class FilterBy {
 
-    @FindBy(xpath = "//dl[@id='narrow-by-list']//a[@href='https://fasttrackit.org/selenium-test/vip.html?price=-100']")
-    private WebElement price;
+    @FindBy(xpath = "//*[@id='narrow-by-list']/dd[1]/ol/li[1]/a")
+    private WebElement priceLessThan100Filter;
+
+    @FindBy(xpath = "//*[@id='narrow-by-list']/dd[2]/ol/li[1]/a")
+    private WebElement priceMoreThan100Filter;
 
     public WebElement getPrice() {
-        return price;
+        return priceLessThan100Filter;
     }
 
-    @FindBy(xpath = "//dl[@id='narrow-by-list'] // dd[@class='even'] // a[@href='https://fasttrackit.org/selenium-test/sale.html?price=100-200']")
-    private WebElement priceMoreThan100;
-
-    public WebElement getPriceMoreThan100() {
-        return priceMoreThan100;
+    public WebElement getPriceMoreThan100Filter() {
+        return priceMoreThan100Filter;
     }
 }

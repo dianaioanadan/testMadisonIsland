@@ -6,13 +6,14 @@ import org.openqa.selenium.support.FindBy;
 
 public class Header {
 
-    @FindBy(id="search")
+    @FindBy(id = "search")
     private WebElement searchField;
 
-    public  void search(String keyword){
+    public void search(String keyword) {
         searchField.sendKeys(keyword + Keys.ENTER);
         System.out.println("Pressed enter in search filed.");
     }
+
     public WebElement getSearchField() {
         return searchField;
     }

@@ -1,20 +1,19 @@
 package org.fasttrackit.pageobjects;
 
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class NavBar {
+public class NavigationBar {
 
-    @FindBy(className = "nav-6")
+    @FindBy(xpath = "//*[@id='nav']/ol/li[6]")
     private WebElement vipPage;
+
+    @FindBy(xpath = "//*[@id='nav']/ol/li[5]")
+    private WebElement salePage;
 
     public WebElement getVipPage() {
         return vipPage;
     }
-
-    @FindBy(className = "nav-5")
-    private WebElement salePage;
 
     public WebElement getSalePage() {
         return salePage;

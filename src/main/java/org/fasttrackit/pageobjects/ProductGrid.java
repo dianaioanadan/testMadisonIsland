@@ -5,115 +5,113 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ProductGrid {
 
-    public WebElement getAddToCartButton(String productName, WebDriver driver){
-        return   driver.findElement(By.xpath("//div[@class='product-info' and .//a[text()= '"+productName+"']]//button[@title='Add to Cart']"));
-    }
-
-    public WebElement getAddToWishListtButton(String productName, WebDriver driver){
-        return   driver.findElement(By.xpath("//div[@class='product-info' and .//a[text()= '"+productName+"']]//a[@class='link-wishlist']"));
-    }
+    private static WebDriver driver;
 
     @FindBy(xpath = "//div[@class='sort-by']//select[@title='Sort By']//option[@value='https://fasttrackit.org/selenium-test/vip.html?dir=asc&order=price']")
-    private WebElement sortByPrice;
-
-    public WebElement getSortByPrice() {
-        return sortByPrice;
-    }
+    private WebElement sortByPriceFilter;
 
     @FindBy(id = "product-collection-image-448")
     private WebElement productImage;
 
-    public WebElement getProductImage() {
-        return productImage;
-    }
-
     @FindBy(xpath = "//li[@class='item last']//h2//a[@title='A Tale of Two Cities']")
-    private  WebElement productName;
+    private WebElement productName;
 
-    public WebElement getProductName() {
-        return productName;
+    @FindBy(xpath = "//ul[contains(@class,'products-grid')]//span[@class='price' and ./parent::*[not(contains(@class, 'old-price'))]]")
+    private List<WebElement> actualProductPriceContainers;
+
+
+    public List<WebElement> getActualProductContainers() {
+        return actualProductPriceContainers;
     }
 
-    @FindBy(id = "product-price-448")
-    private  WebElement fistElementPrice;
+    public List<Double> getActualProductPricesAsDouble() {
+        List<Double> convertedPrices = new ArrayList<>();
+        for (WebElement priceContainer : actualProductPriceContainers) {
+            String priceAsText = priceContainer.getText();
 
-    public WebElement getFistElementPrice() {
-        return fistElementPrice;
-    }
+            Pattern pattern = Pattern.compile("([^ ]+).+");
+            Matcher matcher = pattern.matcher(priceAsText);
 
-    @FindBy(xpath = "//li[@class='item last']//div[@class='price-box']//span[@id='product-price-391']")
-    private WebElement secondElementPrice;
+            if (matcher.find()){
+                String priceTextWithoutCurrency = matcher.group(1);
+                priceTextWithoutCurrency = priceTextWithoutCurrency.replace(",",".");
 
-    public WebElement getSecondElementPrice() {
-        return secondElementPrice;
-    }
+                double convertedPrice = Double.parseDouble(priceTextWithoutCurrency);
 
-    @FindBy(xpath = "//li[@class='item last']//div[@class='price-box']//span[@id='product-price-437']")
-    private WebElement thirdElementPrice;
+                convertedPrices.add(convertedPrice);
+            }
 
-    public WebElement getThirdElementPrice() {
-        return thirdElementPrice;
-    }
-
-    @FindBy(xpath = "//li[@class='item last']//div[@class='price-box']//span[@id='product-price-412']")
-    private  WebElement fourthProductPrice;
-
-    public WebElement getFourthProductPrice() {
-        return fourthProductPrice;
-    }
-
-    @FindBy(id = "product-price-427")
-    private WebElement fifthProductPrice;
-
-    public WebElement getFifthProductPrice() {
-        return fifthProductPrice;
+        }
+        return  convertedPrices;
     }
 
     @FindBy(xpath = "//div[@class='sort-by']//select[@title='Sort By']//option[@value='https://fasttrackit.org/selenium-test/sale.html?dir=asc&order=price']")
     private WebElement sortByPriceSalePage;
 
+    @FindBy(id = "product-price-384")
+    private WebElement fistElementPriceSalePage;
+
+    @FindBy(id = "product-price-403")
+    private WebElement secondElementPriceSalePage;
+
+    @FindBy(id = "product-price-423")
+    private WebElement thirdElementPriceSalePage;
+
+    @FindBy(id = "product-collection-image-423")
+    private WebElement productImageSalePage;
+
+    @FindBy(xpath = "//li[@class='item last']//h2//a[@title='Racer Back Maxi Dress']")
+    private WebElement productNameSalePge;
+
+
+    public WebElement getAddToCartButton(String productName, WebDriver driver) {
+        return driver.findElement(By.xpath("//div[@class='product-info' and .//a[text()= '" + productName + "']]//button[@title='Add to Cart']"));
+    }
+
+    public WebElement getAddToWishListtButton(String productName, WebDriver driver) {
+        return driver.findElement(By.xpath("//div[@class='product-info' and .//a[text()= '" + productName + "']]//a[@class='link-wishlist']"));
+    }
+
+    public WebElement getSortByPriceFilter() {
+        return sortByPriceFilter;
+    }
+
+    public WebElement getProductImage() {
+        return productImage;
+    }
+
+    public WebElement getProductName() {
+        return productName;
+    }
+
     public WebElement getSortByPriceSalePage() {
         return sortByPriceSalePage;
     }
-
-    @FindBy(id = "product-price-384")
-    private  WebElement fistElementPriceSalePage;
 
     public WebElement getFistElementPriceSalePage() {
         return fistElementPriceSalePage;
     }
 
-    @FindBy(id = "product-price-403")
-    private WebElement secondElementPriceSalePage;
-
     public WebElement getSecondElementPriceSalePage() {
         return secondElementPriceSalePage;
     }
-
-    @FindBy(id = "product-price-423")
-    private WebElement thirdElementPriceSalePage;
 
     public WebElement getThirdElementPriceSalePage() {
         return thirdElementPriceSalePage;
     }
 
-    @FindBy(id = "product-collection-image-423")
-    private WebElement productImageSalePage;
-
     public WebElement getProductImageSalePage() {
         return productImageSalePage;
     }
 
-    @FindBy(xpath = "//li[@class='item last']//h2//a[@title='Racer Back Maxi Dress']")
-    private  WebElement productNameSalePge;
-
     public WebElement getProductNameSalePge() {
         return productNameSalePge;
     }
-
-
 }

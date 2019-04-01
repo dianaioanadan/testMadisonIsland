@@ -11,22 +11,23 @@ public class DriverManager {
 
     private static WebDriver driver;
 
-    public static WebDriver initDriver(String browser){
+    public static WebDriver initDriver(String browser) {
 
-        switch (browser.toLowerCase()){
+        switch (browser.toLowerCase()) {
 
             default:
                 System.out.println("Creating default driver for Chrome...");
 
-                // if (System.setProperty("os.name").toLowerCase().contains("windows"))
-
-            case "chrome":System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
+            case "chrome":
+                System.setProperty("webdriver.chrome.driver", AppConfig.getChromeDriverPath());
                 driver = new ChromeDriver();
                 break;
-            case  "firefox":System.setProperty("webdriver.gecko.driver", AppConfig.getGeckoDriverPath());
+            case "firefox":
+                System.setProperty("webdriver.gecko.driver", AppConfig.getGeckoDriverPath());
                 driver = new FirefoxDriver();
                 break;
-            case  "ie":System.setProperty("webdriver.ie.driver", AppConfig.getIeDriverPath());
+            case "ie":
+                System.setProperty("webdriver.ie.driver", AppConfig.getIeDriverPath());
                 driver = new InternetExplorerDriver();
                 break;
         }
