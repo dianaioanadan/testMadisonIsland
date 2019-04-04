@@ -16,8 +16,6 @@ import static org.hamcrest.core.Is.is;
 
 public class VipCategoryPageTests extends TestBase {
 
-    private ProductGrid productGrid = PageFactory.initElements(driver, ProductGrid.class);
-
     @Test
     public void openCategoryPage() {
 
@@ -39,29 +37,13 @@ public class VipCategoryPageTests extends TestBase {
         productGrid.getSortByPriceFilter().click();
 
         List<Double> prices = productGrid.getActualProductPricesAsDouble();
-
+        int i;
 
         Boolean expectedResult = true;
-
-        if (prices.get(0) < prices.get(1)) {
-            expectedResult = true;
-            if (prices.get(1) < prices.get(2)) {
-                expectedResult = true;
-                if (prices.get(2) < prices.get(3)) {
-                    expectedResult = true;
-                    if (prices.get(3) < prices.get(4)) {
-                        expectedResult = true;
-                    } else {
-                        expectedResult = false;
-                    }
-                } else {
-                    expectedResult = false;
-                }
-            } else {
+        for(i=0; i <prices.size()-1 ;i++){
+            if (prices.get(i)> prices.get(i+1)){
                 expectedResult = false;
             }
-        } else {
-            expectedResult = false;
         }
 
         assertThat("Sort by price is not working.", expectedResult, is(true));
@@ -187,16 +169,18 @@ public class VipCategoryPageTests extends TestBase {
         FilterBy filterBy = PageFactory.initElements(driver, FilterBy.class);
         filterBy.getPrice().click();
 
+        ProductGrid productGrid = PageFactory.initElements(driver, ProductGrid.class);
+
         List<Double> prices = productGrid.getActualProductPricesAsDouble();
 
-        Boolean expectedResult = true;
 
-        if (prices.get(0) > 100) {
-            expectedResult = false;
-        } else {
-            if (prices.get(1) > 100) {
+        Boolean expectedResult = true;
+        int i;
+
+        for(i=0;i<prices.size();i++){
+            if ((0>prices.get(i))&(prices.get(i)>100)){
                 expectedResult = false;
-            } else if (prices.get(2) > 100) expectedResult = false;
+            }
         }
 
 

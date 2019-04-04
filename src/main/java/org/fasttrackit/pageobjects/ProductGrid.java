@@ -12,8 +12,6 @@ import java.util.regex.Pattern;
 
 public class ProductGrid {
 
-    private static WebDriver driver;
-
     @FindBy(xpath = "//div[@class='sort-by']//select[@title='Sort By']//option[@value='https://fasttrackit.org/selenium-test/vip.html?dir=asc&order=price']")
     private WebElement sortByPriceFilter;
 

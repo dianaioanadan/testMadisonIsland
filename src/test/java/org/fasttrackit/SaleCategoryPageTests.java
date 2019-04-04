@@ -35,27 +35,14 @@ public class SaleCategoryPageTests extends TestBase {
         ProductGrid productGrid = PageFactory.initElements(driver, ProductGrid.class);
         productGrid.getSortByPriceSalePage().click();
 
-        String firstProductPrice = productGrid.getFistElementPriceSalePage().getText();
-        double firstPrice = PageUtils.convertPrice(firstProductPrice);
-
-        String secondProductPrice = productGrid.getSecondElementPriceSalePage().getText();
-        double secondPrice = PageUtils.convertPrice(secondProductPrice);
-
-        String thirdProductPrice = productGrid.getThirdElementPriceSalePage().getText();
-        double thirdPrice = PageUtils.convertPrice(thirdProductPrice);
-
+        List<Double> prices = productGrid.getActualProductPricesAsDouble();
+        int i;
 
         Boolean expectedResult = true;
-
-        if (firstPrice < secondPrice) {
-            expectedResult = true;
-            if (secondPrice < thirdPrice) {
-                expectedResult = true;
-            } else {
+        for(i=0; i <prices.size()-1 ;i++){
+            if (prices.get(i)> prices.get(i+1)){
                 expectedResult = false;
             }
-        } else {
-            expectedResult = false;
         }
 
         assertThat("Sort by price is not working.", expectedResult, is(true));
@@ -172,20 +159,14 @@ public class SaleCategoryPageTests extends TestBase {
 
         ProductGrid productGrid = PageFactory.initElements(driver, ProductGrid.class);
 
-
-        String firstProductPrice = productGrid.getFistElementPriceSalePage().getText();
-        double firstPrice = PageUtils.convertPrice(firstProductPrice);
-
-        String secondProductPrice = productGrid.getSecondElementPriceSalePage().getText();
-        double secondPrice = PageUtils.convertPrice(secondProductPrice);
+        List<Double> prices = productGrid.getActualProductPricesAsDouble();
 
 
         Boolean expectedResult = true;
+        int i;
 
-        if (firstPrice < 100) {
-            expectedResult = false;
-        } else {
-            if (secondPrice < 100) {
+        for(i=0;i<prices.size();i++){
+            if ((100>prices.get(i))&(prices.get(i)>199.99)){
                 expectedResult = false;
             }
         }
