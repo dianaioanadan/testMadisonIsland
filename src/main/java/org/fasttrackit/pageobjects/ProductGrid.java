@@ -69,8 +69,10 @@ public class ProductGrid {
     private WebElement productNameSalePge;
 
 
-    public WebElement getAddToCartButton(String productName, WebDriver driver) {
-        return driver.findElement(By.xpath("//div[@class='product-info' and .//a[text()= '" + productName + "']]//button[@title='Add to Cart']"));
+    //div[@class='product-info' and .//a[text()= '" + productName + "']]//button[@title='Add to Cart']
+
+    public WebElement getAddToCartButton(WebDriver driverclass) {
+        return driverclass.findElement(By.xpath("//li//button[@title='Add to Cart']"));
     }
 
     public WebElement getAddToWishListtButton(String productName, WebDriver driver) {

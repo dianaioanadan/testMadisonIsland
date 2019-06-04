@@ -137,8 +137,10 @@ public class SaleCategoryPageTests extends TestBase {
 
         String productName = "Park Row Throw";
 
-        ProductGrid productGrid = PageFactory.initElements(driver, ProductGrid.class);
-        productGrid.getAddToCartButton(productName, driver).click();
+       // ProductGrid productGrid = PageFactory.initElements(driver, ProductGrid.class);
+       // productGrid.getAddToCartButton(driver).click();
+
+        driver.findElement(By.xpath("//li//button[@title='Add to Cart']")).click();
 
         String msg = driver.findElement(By.className("success-msg")).getText();
 

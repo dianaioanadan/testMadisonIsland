@@ -7,7 +7,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.containsString;
@@ -150,7 +149,7 @@ public class VipCategoryPageTests extends TestBase {
         String productName = "Geometric Candle Holders";
 
         ProductGrid productGrid = PageFactory.initElements(driver, ProductGrid.class);
-        productGrid.getAddToCartButton(productName, driver).click();
+        productGrid.getAddToCartButton(driver).click();
 
         String msg = driver.findElement(By.className("success-msg")).getText();
 
